@@ -24,9 +24,9 @@ mt = mt.filter_rows(mt.hwe.p_value > 0.001)
 mt = mt.filter_rows(mt.variant_qc.call_rate > 0.9)
 
 
-# Run VEP dbSNFP on filtered Matrix
-config_path = "gs://activestorage_amppd_mgrb/vep.config"
-mt = hl.vep(mt, config_path)
+# Annotate matrix with dbNSFP annotations
+db = hl.experimental.DB(region='us', cloud='gcp')
+mt = db.annotate_rows_db(mt, 'dbNSFP_variants')
 
 # Save filtered Matrix separately
 output_path = "gs://activestorage_amppd_mgrb/v1-1-amp-pd-mgrb.filtered.mt/"
