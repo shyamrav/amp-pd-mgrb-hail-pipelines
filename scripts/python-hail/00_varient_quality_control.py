@@ -1,10 +1,13 @@
 import hail as hl
 hl.init(default_reference='GRCh38')
 
-mt = hl.read_matrix_table('gs://activestorage_amppd_mgrb/v1-1-amp-pd-mgrb.mt/')
+mt = hl.read_matrix_table('gs://activestorage_amppd_mgrb/v1-2-amp-pd-mgrb.sparse.mt/')
 
-# We split using this function since the combiner outputs a sparse matrix table
-mt = hl.experimental.sparse_split_multi(mt)
+# The matrix we start with is a sparse matrix. Densifying before filtering. 
+mt = hl.experimental.densify(mt)
+
+# removing reference blocks from matrix after densify
+mt = mt.filter_rows(hl.agg.any(mt.GT.is_non_ref()))
 
 # Filter out rows with less than 10 DP
 # Rows with missing values are removed regardless of keep
@@ -29,5 +32,5 @@ db = hl.experimental.DB(region='us', cloud='gcp')
 mt = db.annotate_rows_db(mt, 'dbNSFP_variants')
 
 # Save filtered Matrix separately
-output_path = "gs://activestorage_amppd_mgrb/v1-1-amp-pd-mgrb.filtered.mt/"
-mt.write(output_path)
+output_path = "gs://activestorage_amppd_mgrb/v1-2-amp-pd-mgrb.dense.filtered.annotated.mt/"
+mt.write(output_path, overwrite=True)
