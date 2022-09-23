@@ -3,7 +3,6 @@ import argparse
 
 # Arguements
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--full_run", action="store_true", help="Runs on chr22 and chrX only by default. If full_run is set, it runs on the whole matrix. WARNING: This will be VERY expensive")
 parser.add_argument("-w", "--overwrite", action='store_true', help="If set will overwrite output matrix if it already exists")
 parser.add_argument("-v", "--verbose", action='store_true', help="Print some sanity checking. WARNING: may only want to use for subset data. May be expensive when running on whole matrix.")
 requiredNamed = parser.add_argument_group('required named arguments')
