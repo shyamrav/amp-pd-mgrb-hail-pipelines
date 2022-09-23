@@ -31,9 +31,6 @@ usage: 01_hard_filter.py [-h] [-f] [-w] [-v] -i INPUT_MT_PATH -o
 
 optional arguments:
   -h, --help            show this help message and exit
-  -f, --full_run        Runs on chr22 and chrX only by default. If full_run is
-                        set, it runs on the whole matrix. WARNING: This will
-                        be VERY expensive
   -w, --overwrite       If set will overwrite output matrix if it already
                         exists
   -v, --verbose         Print some sanity checking. WARNING: may only want to
